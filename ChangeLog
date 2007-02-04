@@ -1,0 +1,18 @@
+2007-01-15  Guillaume Leroi  <leroi@champoteux.lrde.epita.fr>
+
+ Make changes so gaim-netsoul compiles with gaim-2beta5
+
+	* src/Makefile.am: Add GAIM_PLUGINS to AM_CFLAGS.
+	* src/netsoul.h: Suppress inclusion of internal.h. Replace it by
+	glib.h and gil8n.h.
+	* src/netsoul.c: Suppress some warnings at compile time.
+
+2006-09-17  Guillaume Leroi  <guillaume.leroi@lrde.epita.fr>
+
+	* src/netsoul.c (netsoul_get_buddies): Buddy icons are properly
+	downloads.
+
+2006-09-13  Guillaume Leroi  <guillaume.leroi@lrde.epita.fr>
+
+	* Now works with Gaim-2.0.0Beta3.1.
+

@@ -1,0 +1,6 @@
+./configure --prefix=<where gaim is installed>
+make
+su
+make install
+
+more to come later on...
