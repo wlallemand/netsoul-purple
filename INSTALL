@@ -1,6 +1,3 @@
-./configure --prefix=<where gaim is installed>
-make
-su
-make install
+Gaim-Netsoul for Gaim 2.0.0beta6
 
-more to come later on...
+Use ./autogen.sh and follow instructions.
