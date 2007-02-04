@@ -1,3 +1,9 @@
+2007-02-04  Julien Stuyck <stuyck_j@3ie.org>
+	* Plugin works on beta6.
+	* Add Svn and delete Cvs.
+	* New configuration script ./autogen.sh.
+	* Many compilation Warning solved.
+	
 2007-01-15  Guillaume Leroi  <leroi@champoteux.lrde.epita.fr>
 
  Make changes so gaim-netsoul compiles with gaim-2beta5
