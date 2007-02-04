@@ -444,7 +444,7 @@ static void netsoul_get_info(GaimConnection *gc, const char *who)
   if (!(gb = get_good_stored_buddy(gc, (char *) who))) {
     GaimNotifyUserInfo *user_info;
     user_info = gaim_notify_user_info_new();
-    gaim_notify_user_info_add_pair(user_info, "No Info about this user!", NULL);
+    gaim_notify_user_info_add_pair(user_info,"Error", "No Info about this user!");
     gaim_notify_userinfo(gc, who, user_info, NULL, NULL);
     gaim_notify_user_info_destroy(user_info);
     return;
