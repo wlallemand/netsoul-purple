@@ -136,8 +136,9 @@ static void netsoul_tooltip_text(GaimBuddy *gb, GaimNotifyUserInfo *user_info, g
     ns_watch_log_user(gc);
     ns_list_users(gc, ns->watchlist);
   }
-  if (nb->nblocations == 0)
-    return;
+   if (nb->nblocations == 0)
+     return;
+  gaim_debug_info("netsoul", "netsoul_tooltip_text nblocation != 0\n");
   tab = g_new0(char *, nb->nblocations + 1);
   for (i = 0, tmp = nb->locationlist; tmp; tmp = tmp->next, i++) {
     nc = tmp->data;
@@ -148,7 +149,6 @@ static void netsoul_tooltip_text(GaimBuddy *gb, GaimNotifyUserInfo *user_info, g
   resp = g_strdup_printf("\n<b>Status:</b> %s\n<b>Groupe:</b> %s\n<b>Connections:</b>%s",
 			 ns_state_to_text(nb->state), nb->group, nctxt);
   g_free(nctxt);
-  user_info = gaim_notify_user_info_new();
   gaim_notify_user_info_add_pair(user_info, "Informations", resp);
   g_free(resp);
 }
@@ -545,7 +545,7 @@ static GaimPluginProtocolInfo prpl_info =
     OPT_PROTO_MAIL_CHECK,    /* options          */
     NULL,                           /* user_splits      */
     NULL,                           /* protocol_options */
-    {"jpeg", 0, 0, 96, 96, GAIM_ICON_SCALE_DISPLAY},                 /* icon_spec        */
+    {"jpeg", 48, 48, 96, 96, 0, GAIM_ICON_SCALE_DISPLAY},                 /* icon_spec        */
     netsoul_list_icon,              /* list_icon        */
     netsoul_list_emblems,           /* list_emblems     */
     netsoul_status_text,            /* status_text      */
