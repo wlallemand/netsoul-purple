@@ -43,7 +43,7 @@
 #include "debug.h"
 #include "blist.h"
 #include "util.h"
-#include "gaim.h"
+#include "pidgin.h"
 #include "version.h"
 #include "cipher.h"
 #include "imgstore.h"
@@ -53,7 +53,7 @@
 #define NETSOUL_DEFAULT_SERVER "ns-server.epita.fr"
 #define NETSOUL_DEFAULT_PORT 4242
 #define NETSOUL_DEFAULT_LOCATION "maison"
-#define NETSOUL_DEFAULT_COMMENT "Netsoul for Gaim is Funky!"
+#define NETSOUL_DEFAULT_COMMENT "Netsoul for Purple is Funky!"
 
 #define NETSOUL_PHOTO_URL "http://www.epitech.net/intra/photo.php?login="
 
@@ -81,13 +81,13 @@ typedef struct		_NetsoulData {
     donnees propres au protocole Netsoul
    */
   NetsoulState		state;
-  GaimAccount		*account;
+  PurpleAccount		*account;
   int			id;		// Netsoul ID
   char			*challenge;	// Challenge for auth
   char			*host;		// hostname seen by server
   int			port;		// local port used for connection
   int			fd;
-  GaimConvChat		conv;
+  PurpleConvChat		conv;
   GList			*watchlist;
 }			NetsoulData;
 
@@ -115,31 +115,31 @@ typedef struct	_NetsoulConn {
 /*
   netsoul.c
 */
-void netsoul_get_buddies (GaimConnection* gc);
+void netsoul_get_buddies (PurpleConnection* gc);
 
 /*
   ns_buddy.c
 */
 
-void	ns_watch_buddy(GaimConnection *gc, GaimBuddy *gb);
+void	ns_watch_buddy(PurpleConnection *gc, PurpleBuddy *gb);
 int	ns_text_to_state(char *state);
 char	*ns_state_to_text(int state);
-void	ns_compute_update_state(GaimConnection *gc, GaimBuddy *gb);
-GList	*ns_buddy_menu(GaimBuddy *gb);
+void	ns_compute_update_state(PurpleConnection *gc, PurpleBuddy *gb);
+GList	*ns_buddy_menu(PurpleBuddy *gb);
 
 /*
   ns_connection.c
 */
 
-void	netsoul_login (GaimAccount *account);
+void	netsoul_login (PurpleAccount *account);
 
 /*
   ns_listen.c
 */
 
-GaimBuddy	*get_good_stored_buddy(GaimConnection *gc, char *fullname);
-void	ns_listen(gpointer data, gint source, GaimInputCondition cond);
-char	*get_good_msg_user(GaimConnection *gc, const char *who);
+PurpleBuddy	*get_good_stored_buddy(PurpleConnection *gc, char *fullname);
+void	ns_listen(gpointer data, gint source, PurpleInputCondition cond);
+char	*get_good_msg_user(PurpleConnection *gc, const char *who);
 
 
 /*
@@ -147,13 +147,13 @@ char	*get_good_msg_user(GaimConnection *gc, const char *who);
 */
 
 int	netsoul_write(NetsoulData *ns, char *data);
-void	ns_watch_log_user(GaimConnection *gc);
-void	ns_list_users(GaimConnection *gc, GList *list);
-void	ns_list_users_login(GaimConnection *gc, char *login);
-void	ns_list_users_id(GaimConnection *gc, int id);
-void	ns_send_state(GaimConnection *gc, int state, long int sincewhen);
-void	ns_msg_user(GaimConnection *gc, const char *who, const char *what);
-void	ns_send_typing(GaimConnection *gc, const char *who, GaimTypingState typing);
+void	ns_watch_log_user(PurpleConnection *gc);
+void	ns_list_users(PurpleConnection *gc, GList *list);
+void	ns_list_users_login(PurpleConnection *gc, char *login);
+void	ns_list_users_id(PurpleConnection *gc, int id);
+void	ns_send_state(PurpleConnection *gc, int state, long int sincewhen);
+void	ns_msg_user(PurpleConnection *gc, const char *who, const char *what);
+void	ns_send_typing(PurpleConnection *gc, const char *who, PurpleTypingState typing);
 NetsoulConn	*find_conn_id(NetsoulBuddy *nb, int id);
 
 /*
@@ -168,8 +168,8 @@ char	*ns_readable_time(long int tim);
 /*
   ns_chat.c
 */
-void ns_initiate_chat(GaimConnection *gc, char *who);
-void ns_chat_send_start(GaimBlistNode *node, gpointer data);
-void ns_chat_send_enter(GaimConnection *gc, const char *who);
+void ns_initiate_chat(PurpleConnection *gc, char *who);
+void ns_chat_send_start(PurpleBlistNode *node, gpointer data);
+void ns_chat_send_enter(PurpleConnection *gc, const char *who);
 
 #endif

@@ -23,27 +23,27 @@
 
 #include"netsoul.h"
 
-void ns_initiate_chat(GaimConnection *gc, char *who)
+void ns_initiate_chat(PurpleConnection *gc, char *who)
 {
   NetsoulData *ns;
-  GaimAccount *acc;
+  PurpleAccount *acc;
 
-  gaim_debug_info("netsoul", "ns_initiate_chat\n");
-  acc = gaim_connection_get_account(gc);
+  purple_debug_info("netsoul", "ns_initiate_chat\n");
+  acc = purple_connection_get_account(gc);
   ns = gc->proto_data;
   ns->conv.conv = serv_got_joined_chat(gc, 1, "Netsoul Chat");
 
-  gaim_conv_chat_add_user(&(ns->conv), gaim_account_get_username(acc), NULL, GAIM_CBFLAGS_NONE, TRUE);
+  purple_conv_chat_add_user(&(ns->conv), purple_account_get_username(acc), NULL, PURPLE_CBFLAGS_NONE, TRUE);
 }
 
-void ns_chat_send_enter(GaimConnection *gc, const char *who)
+void ns_chat_send_enter(PurpleConnection *gc, const char *who)
 {
   NetsoulData	*ns = gc->proto_data;
   char		*towho;
   char		*resp;
 
   towho = get_good_msg_user(gc, who);
-  gaim_debug_info("netsoul", "confirm a chat with %s\n", towho);
+  purple_debug_info("netsoul", "confirm a chat with %s\n", towho);
   resp = g_strdup_printf("user_cmd msg_user %s chat_enter\n", towho);
   netsoul_write(ns, resp);
   ns_initiate_chat(gc, towho);
@@ -51,21 +51,21 @@ void ns_chat_send_enter(GaimConnection *gc, const char *who)
   g_free(resp);
 }
 
-void ns_chat_send_start(GaimBlistNode *node, gpointer data)
+void ns_chat_send_start(PurpleBlistNode *node, gpointer data)
 {
-  GaimConnection *gc;
+  PurpleConnection *gc;
   NetsoulData	 *ns;
-  GaimBuddy	 *buddy;
+  PurpleBuddy	 *buddy;
   NetsoulBuddy	 *nb;
   char		 *towho;
   char		 *resp;
 
-  buddy = (GaimBuddy *) data;
+  buddy = (PurpleBuddy *) data;
   nb = buddy->proto_data;
-  gc = gaim_account_get_connection(buddy->account);
+  gc = purple_account_get_connection(buddy->account);
   ns = gc->proto_data;
   towho = get_good_msg_user(gc, nb->login);
-  gaim_debug_info("netsoul", "start a chat with %s\n", towho);
+  purple_debug_info("netsoul", "start a chat with %s\n", towho);
   resp = g_strdup_printf("user_cmd msg_user %s chat_start\n", towho);
   netsoul_write(ns, resp);
   g_free(towho);

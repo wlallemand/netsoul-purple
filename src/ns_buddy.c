@@ -28,14 +28,14 @@
   Add the given buddy to the netsoul watchlist
 */
 
-void	ns_watch_buddy(GaimConnection *gc, GaimBuddy *gb)
+void	ns_watch_buddy(PurpleConnection *gc, PurpleBuddy *gb)
 {
   NetsoulData	*ns = gc->proto_data;
   NetsoulBuddy	*nb;
   char	**login;
 
   login = g_strsplit(gb->name, "@", 2);
-  gaim_debug_info("netsoul", "ns_watch_buddy: %s\n", *login);
+  purple_debug_info("netsoul", "ns_watch_buddy: %s\n", *login);
   nb = g_new0(NetsoulBuddy, 1);
   gb->proto_data = nb;
   nb->login = g_strdup(*login);
@@ -85,15 +85,15 @@ char	*ns_state_to_text(int state)
 }
 
 void
-inform_conv (GaimConnection *gc, GaimBuddy *gb, gboolean idchanged, gboolean waschatty)
+inform_conv (PurpleConnection *gc, PurpleBuddy *gb, gboolean idchanged, gboolean waschatty)
 {
-  GaimConversation	*conv;
+  PurpleConversation	*conv;
   NetsoulBuddy	*nb = gb->proto_data;
   gchar		*tmp;
 
-  gaim_debug_info ("netsoul", "inform_conv %s idchanged:%d\n",
+  purple_debug_info ("netsoul", "inform_conv %s idchanged:%d\n",
 		   gb->name, idchanged);
-  if (!(conv = gaim_find_conversation_with_account(GAIM_CONV_TYPE_ANY, gb->name, gaim_connection_get_account(gc))))
+  if (!(conv = purple_find_conversation_with_account(PURPLE_CONV_TYPE_ANY, gb->name, purple_connection_get_account(gc))))
     return;
   if (!nb->nblocations)
     return;
@@ -101,7 +101,7 @@ inform_conv (GaimConnection *gc, GaimBuddy *gb, gboolean idchanged, gboolean was
     if (!waschatty) {
       tmp = g_strdup_printf ("%s is (in)active at several locations. Now sending messages to all locations.",
 			     (gb->alias) ? gb->alias : gb->name );
-      gaim_conversation_write(conv, NULL, tmp, GAIM_MESSAGE_SYSTEM, time(NULL));
+      purple_conversation_write(conv, NULL, tmp, PURPLE_MESSAGE_SYSTEM, time(NULL));
       g_free (tmp);
     }
   } else {
@@ -112,7 +112,7 @@ inform_conv (GaimConnection *gc, GaimBuddy *gb, gboolean idchanged, gboolean was
       tmp = g_strdup_printf ("Messages to %s are now only sent to one location [%s]@%s",
 			     (gb->alias) ? gb->alias : gb->name,
 			     nc->location, nc->ip);
-      gaim_conversation_write(conv, NULL, tmp, GAIM_MESSAGE_SYSTEM, time(NULL));
+      purple_conversation_write(conv, NULL, tmp, PURPLE_MESSAGE_SYSTEM, time(NULL));
       g_free (tmp);
     }
   }
@@ -125,7 +125,7 @@ inform_conv (GaimConnection *gc, GaimBuddy *gb, gboolean idchanged, gboolean was
   //     Inform that it isn't anymore
 }
 
-void	ns_compute_update_state(GaimConnection *gc, GaimBuddy *gb)
+void	ns_compute_update_state(PurpleConnection *gc, PurpleBuddy *gb)
 {
   GList	*tmp;
   NetsoulConn	*nc;
@@ -133,14 +133,14 @@ void	ns_compute_update_state(GaimConnection *gc, GaimBuddy *gb)
   gboolean	waschatty;
   int		nbc, defid, idle, oldid;
   NetsoulBuddy	*nb = gb->proto_data;
-  GaimAccount	*account = gaim_connection_get_account (gc);
+  PurpleAccount	*account = purple_connection_get_account (gc);
 
-  gaim_debug_info("netsoul", "compute_update_state : %s\n", gb->name);
+  purple_debug_info("netsoul", "compute_update_state : %s\n", gb->name);
   oldid = nb->defaultid;
   waschatty = ((nb->state == NS_STATE_SEVERAL_ACTIF) || (nb->state == NS_STATE_SEVERAL_INACTIF));
   // if buddy not logged, state = OFFLINE
   if (!(nb->nblocations)) {
-    gaim_debug_info("netsoul", "compute : nb0\n");
+    purple_debug_info("netsoul", "compute : nb0\n");
     nb->state = NS_STATE_NOT_CONNECTED;
     nb->signon = 0;
     nb->laststate = 0;
@@ -148,14 +148,14 @@ void	ns_compute_update_state(GaimConnection *gc, GaimBuddy *gb)
     loggedin = FALSE;
   } else if (nb->nblocations == 1) {
     // else if buddy logged once, copy only conn data
-    gaim_debug_info("netsoul", "compute : nb1\n");
+    purple_debug_info("netsoul", "compute : nb1\n");
     nc = nb->locationlist->data;
     nb->state = nc->state;
     nb->signon = nc->logintime;
     nb->laststate = nc->statetime;
     nb->defaultid = nc->id;
   } else {  // else if logged several times compute mixed status
-    gaim_debug_info("netsoul", "compute : nb+\n");
+    purple_debug_info("netsoul", "compute : nb+\n");
     // parse through connections
     for (tmp = nb->locationlist, nbc = defid = 0; tmp; tmp = tmp->next) {
       nc = tmp->data;
@@ -191,20 +191,20 @@ void	ns_compute_update_state(GaimConnection *gc, GaimBuddy *gb)
   else
     idle = nb->laststate;
 
-  gaim_debug_info("netsoul", "idle:%d state:%d\n", idle, nb->state);
+  purple_debug_info("netsoul", "idle:%d state:%d\n", idle, nb->state);
   char *state_text = ns_state_to_text(nb->state);
-  gaim_debug_info("netsoul", "status_update %s, log:%d, signon:%lld, idle:%d, state:%s\n",
+  purple_debug_info("netsoul", "status_update %s, log:%d, signon:%lld, idle:%d, state:%s\n",
 		  gb->name, loggedin, nb->signon, idle, state_text);
-  // Inform Gaim that status changed
+  // Inform Purple that status changed
   if (nb->state == NS_STATE_NOT_CONNECTED)
-    gaim_prpl_got_user_status(account, gb->name, "offline", NULL);
+    purple_prpl_got_user_status(account, gb->name, "offline", NULL);
   else
-    gaim_prpl_got_user_status(account, gb->name, "available", NULL);
+    purple_prpl_got_user_status(account, gb->name, "available", NULL);
   g_free (state_text);
   if (idle)
-    gaim_prpl_got_user_idle(account, gb->name, 1, -1);
+    purple_prpl_got_user_idle(account, gb->name, 1, -1);
   else
-    gaim_prpl_got_user_idle(account, gb->name, FALSE, 0);
+    purple_prpl_got_user_idle(account, gb->name, FALSE, 0);
   //serv_got_update(gc, gb->name, loggedin, 0, nb->signon, idle, nb->state);
   inform_conv(gc, gb, oldid == nb->defaultid, waschatty);
 }
@@ -212,13 +212,13 @@ void	ns_compute_update_state(GaimConnection *gc, GaimBuddy *gb)
 /*
 ** Ajoute des champs au menu contextuel de la buddy list
 */
-GList *ns_buddy_menu(GaimBuddy *gb)
+GList *ns_buddy_menu(PurpleBuddy *gb)
 {
   GList *m = NULL;
-  //GaimBlistNodeAction *act;
+  //PurpleBlistNodeAction *act;
 
-  gaim_debug_info("netsoul", "ns_buddy_menu on buddy: %s\n", gb->name);
-  //  act = gaim_blist_node_action_new(_("Initiate _Chat"),
+  purple_debug_info("netsoul", "ns_buddy_menu on buddy: %s\n", gb->name);
+  //  act = purple_blist_node_action_new(_("Initiate _Chat"),
   //				   ns_chat_send_start, gb);
   //m = g_list_append(m, act);
   return m;
