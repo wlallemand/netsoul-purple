@@ -31,14 +31,14 @@ int	netsoul_write(NetsoulData *ns, char *data)
   if (ns->fd < 0)
     return -1;
 
-  gaim_debug_info("netsoul", "netsoul_write [%s]\n",data);
+  purple_debug_info("netsoul", "netsoul_write [%s]\n",data);
   if ((ret = write(ns->fd, data, strlen(data))) < 0)
-    gaim_connection_error(gaim_account_get_connection(ns->account),
+    purple_connection_error(purple_account_get_connection(ns->account),
 			  _("Server has disconnected"));
   return ret;
 }
 
-void	ns_list_users(GaimConnection *gc, GList *list)
+void	ns_list_users(PurpleConnection *gc, GList *list)
 {
   NetsoulData	*ns = gc->proto_data;
   GList	*tmp;
@@ -60,7 +60,7 @@ void	ns_list_users(GaimConnection *gc, GList *list)
   g_free(tab);
 }
 
-void	ns_list_users_login(GaimConnection *gc, char *login)
+void	ns_list_users_login(PurpleConnection *gc, char *login)
 {
   char	*resp;
   NetsoulData	*ns = gc->proto_data;
@@ -70,7 +70,7 @@ void	ns_list_users_login(GaimConnection *gc, char *login)
   g_free(resp);
 }
 
-void	ns_list_users_id(GaimConnection *gc, int id)
+void	ns_list_users_id(PurpleConnection *gc, int id)
 {
   char	*resp;
   NetsoulData	*ns = gc->proto_data;
@@ -80,7 +80,7 @@ void	ns_list_users_id(GaimConnection *gc, int id)
   g_free(resp);
 }
 
-void	ns_watch_log_user(GaimConnection *gc)
+void	ns_watch_log_user(PurpleConnection *gc)
 {
   NetsoulData	*ns = gc->proto_data;
   GList	*tmp;
@@ -96,14 +96,14 @@ void	ns_watch_log_user(GaimConnection *gc)
   buf = g_strjoinv(",", tab);
   res = g_strdup_printf("user_cmd watch_log_user {%s}\n", buf);
   if (netsoul_write(ns, res) < 0) {
-    gaim_debug_warning("netsoul", "Error sending state\n");
+    purple_debug_warning("netsoul", "Error sending state\n");
   }
   g_free(res);
   g_free(buf);
   g_free(tab);
 }
 
-void	ns_send_state(GaimConnection *gc, int state, long int sincewhen)
+void	ns_send_state(PurpleConnection *gc, int state, long int sincewhen)
 {
   NetsoulData	*ns = gc->proto_data;
   char		*buf;
@@ -115,21 +115,21 @@ void	ns_send_state(GaimConnection *gc, int state, long int sincewhen)
   else
     buf = g_strdup_printf("state lock:%ld\n", sincewhen);
   if (netsoul_write(ns, buf) < 0) {
-    gaim_debug_warning("netsoul", "Error sending state\n");
+    purple_debug_warning("netsoul", "Error sending state\n");
   }
 }
 
-char	*get_good_msg_user(GaimConnection *gc, const char *who)
+char	*get_good_msg_user(PurpleConnection *gc, const char *who)
 {
-  GaimBuddy	*gb;
+  PurpleBuddy	*gb;
   NetsoulBuddy	*nb;
   char		**tab;
   char		*resp;
 
   tab = g_strsplit(who, "@", 2);
   // look for a buddy
-  if (!(gb = gaim_find_buddy(gaim_connection_get_account(gc), who)))
-    if (!(gb = gaim_find_buddy(gaim_connection_get_account(gc), *tab))) {
+  if (!(gb = purple_find_buddy(purple_connection_get_account(gc), who)))
+    if (!(gb = purple_find_buddy(purple_connection_get_account(gc), *tab))) {
       // if we don't have a buddy, return the login
       resp = g_strdup(*tab);
       g_strfreev(tab);
@@ -146,7 +146,7 @@ char	*get_good_msg_user(GaimConnection *gc, const char *who)
   return resp;
 }
 
-void	ns_msg_user(GaimConnection *gc, const char *who, const char *what) {
+void	ns_msg_user(PurpleConnection *gc, const char *who, const char *what) {
   NetsoulData	*ns = gc->proto_data;
   char		*towho;
   char		*resp;
@@ -161,14 +161,14 @@ void	ns_msg_user(GaimConnection *gc, const char *who, const char *what) {
   g_free(msg2);
 }
 
-void	ns_send_typing(GaimConnection *gc, const char *who, GaimTypingState typing)
+void	ns_send_typing(PurpleConnection *gc, const char *who, PurpleTypingState typing)
 {
   NetsoulData	*ns = gc->proto_data;
   char		*towho;
   char		*resp;
 
   towho = get_good_msg_user(gc, who);
-  if (typing == GAIM_TYPING)
+  if (typing == PURPLE_TYPING)
     resp = g_strdup_printf("user_cmd msg_user %s dotnetSoul_UserTyping null\n", towho);
   else
     resp = g_strdup_printf("user_cmd msg_user %s dotnetSoul_UserCancelledTyping null\n", towho);

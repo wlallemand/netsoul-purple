@@ -1,7 +1,7 @@
 EXTRA_DIST = \
 	Makefile.mingw
 
-plugindir = $(libdir)/gaim
+plugindir = $(libdir)/pidgin
 
 libnetsoul_la_LDFLAGS = -module -avoid-version
 
@@ -21,10 +21,10 @@ libnetsoul_la_SOURCES = netsoul.c \
 endif
 
 AM_CPPFLAGS = \
-	-DLIBDIR=\"$(libdir)/gaim/\" \
+	-DLIBDIR=\"$(libdir)/pidgin/\" \
 	-DDATADIR=\"$(datadir)\" \
 	$(GLIB_CFLAGS) \
-	$(GAIM_CFLAGS) \
+	$(PIDGIN_CFLAGS) \
 	$(DEBUG_CFLAGS)
 
-AM_CFLAGS=-DGAIM_PLUGINS
+AM_CFLAGS=-DPURPLE_PLUGINS

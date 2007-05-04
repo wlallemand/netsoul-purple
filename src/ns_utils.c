@@ -162,19 +162,19 @@ char  *url_decode(char  *msg)
     return NULL;
   if ((ret = g_strdup(msg)) == NULL) {
     free(msg);
-    gaim_debug_warning("netsoul", "pointeur NULL: url_decode(1)");
+    purple_debug_warning("netsoul", "pointeur NULL: url_decode(1)");
     return (NULL);
   }
   if (ns_url_decode(ret) == 0)
   {
     free(ret);
-    gaim_debug_warning("netsoul", "pointeur NULL: url_decode(2)");
+    purple_debug_warning("netsoul", "pointeur NULL: url_decode(2)");
     return (NULL);
   }
   if (ns_back_slash_decode(ret) == 0)
   {
     free(ret);
-    gaim_debug_warning("netsoul", "pointeur NULL: url_decode(3)");
+    purple_debug_warning("netsoul", "pointeur NULL: url_decode(3)");
     return (NULL);
   }
   ret2 = g_convert(ret, strlen(ret), "UTF-8", "ISO-8859-15", NULL, NULL, NULL);
@@ -203,13 +203,13 @@ char  *url_encode(char  *msg)
     msg2 = g_strdup(msg);
   if ((tmp = ns_back_slash_encode(msg2)) == NULL)
     {
-      gaim_debug_warning("netsoul", "pointeur NULL: url_encode(1)");
+      purple_debug_warning("netsoul", "pointeur NULL: url_encode(1)");
       return (NULL);
     }
   g_free(msg2);
   if ((ret = ns_url_encode(tmp)) == NULL)
   {
-    gaim_debug_warning("netsoul", "pointeur NULL: url_encode(2)");
+    purple_debug_warning("netsoul", "pointeur NULL: url_encode(2)");
     g_free (tmp);
     return (NULL);
   }
@@ -241,14 +241,14 @@ char  *crypt_pass(char *password)
   unsigned char	pass[16];
   char		*out;
   unsigned	len;
-  GaimCipher *md5;
-  GaimCipherContext *context;
+  PurpleCipher *md5;
+  PurpleCipherContext *context;
 
-  md5 = gaim_ciphers_find_cipher ("md5");
-  context = gaim_cipher_context_new (md5, NULL);
-  gaim_cipher_context_append (context, (const guchar *)password, strlen (password));
-  gaim_cipher_context_digest (context, strlen (password), pass, &len);
-  gaim_cipher_context_destroy (context);
+  md5 = purple_ciphers_find_cipher ("md5");
+  context = purple_cipher_context_new (md5, NULL);
+  purple_cipher_context_append (context, (const guchar *)password, strlen (password));
+  purple_cipher_context_digest (context, strlen (password), pass, &len);
+  purple_cipher_context_destroy (context);
 
   out = g_strdup_printf("%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
 			pass[0],pass[1],pass[2],pass[3],pass[4],pass[5],pass[6],pass[7],pass[8],

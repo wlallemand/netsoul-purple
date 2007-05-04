@@ -48,12 +48,12 @@ AC_SUBST(CFLAGS)
 # Check for Gaim
 #
 
-PKG_CHECK_MODULES(GAIM, gaim,
+PKG_CHECK_MODULES(PIDGIN, pidgin,
 [
-   AC_DEFINE(HAVE_GAIM, 1, [Define if we've found gaim.])
+   AC_DEFINE(HAVE_PIDGIN, 1, [Define if we've found gaim.])
 ])
 
-AC_SUBST(GAIM_CFLAGS)
+AC_SUBST(PIDGIN_CFLAGS)
 
 #
 # check for gtk and other dependencies

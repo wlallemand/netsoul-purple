@@ -23,39 +23,39 @@
 #include <string.h>
 #include "netsoul.h"
 
-void	ns_use_rep(GaimConnection *gc, char **msg)
+void	ns_use_rep(PurpleConnection *gc, char **msg)
 {
   NetsoulData	*ns = gc->proto_data;
 
   if (ns->state == NS_STATE_SENT_EXTUSERLOG) {
     if (atoi(*msg) == 2) {
       ns->state = NS_STATE_CONNECTION;
-      gaim_debug_info("netsoul", "end ns_use_rep\n");
-      gaim_connection_set_state(gc, GAIM_CONNECTED);
-      gaim_debug_info("netsoul", "end ns_use_rep\n");
+      purple_debug_info("netsoul", "end ns_use_rep\n");
+      purple_connection_set_state(gc, PURPLE_CONNECTED);
+      purple_debug_info("netsoul", "end ns_use_rep\n");
       //serv_finish_login(gc);
       ns_send_state(gc, NS_STATE_ACTIF, time(NULL));
       ns_list_users(gc, ns->watchlist);
       return;
     }
-    gaim_connection_error(gc, _("Bad Authentification"));
+    purple_connection_error(gc, _("Bad Authentification"));
   }
 }
 
 /*
   get_good_stored_buddy
   fullname : compte name (<login>@<location>)
-  returns : The good GaimBuddy if it exists, or NULL if it doesn't
+  returns : The good PurpleBuddy if it exists, or NULL if it doesn't
 */
 
-GaimBuddy	*get_good_stored_buddy(GaimConnection *gc, char *fullname)
+PurpleBuddy	*get_good_stored_buddy(PurpleConnection *gc, char *fullname)
 {
   char	**login;
-  GaimBuddy	*gb;
+  PurpleBuddy	*gb;
 
   login = g_strsplit(fullname, "@", 2);
-  if (!(gb = gaim_find_buddy(gaim_connection_get_account(gc), fullname)))
-    gb = gaim_find_buddy(gaim_connection_get_account(gc), *login);
+  if (!(gb = purple_find_buddy(purple_connection_get_account(gc), fullname)))
+    gb = purple_find_buddy(purple_connection_get_account(gc), *login);
   g_strfreev(login);
   return gb;
 }
@@ -80,9 +80,9 @@ NetsoulConn	*find_conn_id(NetsoulBuddy *nb, int id)
   return NULL;
 }
 
-void	ns_buddy_got_msg(GaimConnection *gc, char *who, char *msg)
+void	ns_buddy_got_msg(PurpleConnection *gc, char *who, char *msg)
 {
-  GaimBuddy	*gb;
+  PurpleBuddy	*gb;
   char	*msgdec;
   char	*towho;
 
@@ -98,34 +98,34 @@ void	ns_buddy_got_msg(GaimConnection *gc, char *who, char *msg)
     serv_got_im(gc, towho, msgdec, 0, time(NULL));
   else
     {
-      gaim_debug_warning("netsoul", "msgdecoded == NULL\n");
+      purple_debug_warning("netsoul", "msgdecoded == NULL\n");
       serv_got_im(gc, towho, msg, 0, time(NULL));
     }
   g_free(msgdec);
 }
 
-void	ns_buddy_typing_notification(GaimConnection *gc, char *who, int typing_state)
+void	ns_buddy_typing_notification(PurpleConnection *gc, char *who, int typing_state)
 {
-  GaimBuddy	*gb;
+  PurpleBuddy	*gb;
   char	*towho;
 
-  gaim_debug_info("netsoul", "l'utilisateur %s est en train de taper un msg \n", who);
+  purple_debug_info("netsoul", "l'utilisateur %s est en train de taper un msg \n", who);
   if (!(gb = get_good_stored_buddy(gc, who)))
     towho = who;
   else
     towho = gb->name;
 
   if (typing_state)
-    serv_got_typing(gc, towho, time(NULL), GAIM_TYPING);
+    serv_got_typing(gc, towho, time(NULL), PURPLE_TYPING);
   else
     serv_got_typing_stopped (gc, towho);
 }
 
 
-void	ns_buddy_got_user_state(GaimConnection *gc, char **who, char *state)
+void	ns_buddy_got_user_state(PurpleConnection *gc, char **who, char *state)
 {
   char	**tab, *speclogin;
-  GaimBuddy	*gb;
+  PurpleBuddy	*gb;
   NetsoulBuddy	*nb;
   NetsoulConn	*nc;
 
@@ -160,9 +160,9 @@ void	ns_buddy_got_user_state(GaimConnection *gc, char **who, char *state)
   ns_compute_update_state(gc, gb);
 }
 
-void	ns_user_update(GaimConnection *gc, char **msg)
+void	ns_user_update(PurpleConnection *gc, char **msg)
 {
-  GaimBuddy	*gb;
+  PurpleBuddy	*gb;
   NetsoulBuddy	*nb;
   NetsoulConn	*nc;
   char		**tab;
@@ -171,7 +171,7 @@ void	ns_user_update(GaimConnection *gc, char **msg)
 
   msg2 = g_strsplit(msg[1], " ", 0);
   speclogin = g_strdup_printf("%s@%s", *msg2, url_decode(msg2[7]));
-  gaim_debug_info("netsoul", "ns_user_update : %s[%s]\n", speclogin, *msg);
+  purple_debug_info("netsoul", "ns_user_update : %s[%s]\n", speclogin, *msg);
   // get the gaimbuddy
   if (!(gb = get_good_stored_buddy(gc, speclogin))) {
       g_free(speclogin);
@@ -189,7 +189,7 @@ void	ns_user_update(GaimConnection *gc, char **msg)
     nc = g_new0(NetsoulConn, 1);
     nc->id = atoi(*msg);
     nc->logintime = atol(msg2[2]);
-    gaim_debug_info("netsoul", "state time : %s\n", tab[1]);
+    purple_debug_info("netsoul", "state time : %s\n", tab[1]);
     if (tab[1])
       nc->statetime = atol(tab[1]);
     else
@@ -212,21 +212,21 @@ void	ns_user_update(GaimConnection *gc, char **msg)
   ns_compute_update_state(gc, gb);
 }
 
-void	ns_buddy_got_user_login(GaimConnection *gc, char **who)
+void	ns_buddy_got_user_login(PurpleConnection *gc, char **who)
 {
   ns_list_users_id(gc, atoi(*who));
 }
 
-void	ns_buddy_got_user_logout(GaimConnection *gc, char **who)
+void	ns_buddy_got_user_logout(PurpleConnection *gc, char **who)
 {
-  GaimBuddy	*gb;
+  PurpleBuddy	*gb;
   NetsoulBuddy	*nb;
   NetsoulConn	*nc;
   char		*speclogin;
 
   // find the corresponding id
   speclogin = convertname(who);
-  gaim_debug_info("netsoul", "ns_buddy_got_user_logout %s\n", speclogin);
+  purple_debug_info("netsoul", "ns_buddy_got_user_logout %s\n", speclogin);
   if (!(gb = get_good_stored_buddy(gc, speclogin))) {
       g_free(speclogin);
       return;
@@ -246,13 +246,13 @@ void	ns_buddy_got_user_logout(GaimConnection *gc, char **who)
   g_free(speclogin);
 }
 
-void	ns_buddy_user_cmd(GaimConnection *gc, char **who, char *cmd)
+void	ns_buddy_user_cmd(PurpleConnection *gc, char **who, char *cmd)
 {
   char	*nameid;
   char	**tab;
 
   nameid = convertname(who);
-  gaim_debug_info("netsoul", "ns_buddy_user_cmd %s\n", nameid);
+  purple_debug_info("netsoul", "ns_buddy_user_cmd %s\n", nameid);
   tab = g_strsplit(cmd, " ", 0);
   if (!strcmp(*tab, "msg"))
     ns_buddy_got_msg(gc, nameid, tab[1]);
@@ -272,27 +272,27 @@ void	ns_buddy_user_cmd(GaimConnection *gc, char **who, char *cmd)
   g_free(nameid);
 }
 
-void	ns_got_mail(GaimConnection *gc, char *msg)
+void	ns_got_mail(PurpleConnection *gc, char *msg)
 {
   char	**tab;
   char	*from;
   char	*subject;
 
-  if (!gaim_account_get_check_mail(gaim_connection_get_account(gc)))
+  if (!purple_account_get_check_mail(purple_connection_get_account(gc)))
     return;
-  gaim_debug_info("netsoul", "ns_got_mail msg:%s\n", msg);
+  purple_debug_info("netsoul", "ns_got_mail msg:%s\n", msg);
   tab = g_strsplit(g_strstrip(msg), " ", 0);
-  gaim_debug_info("netsoul", "got_mail 0:%s, 1:%s\n", tab[0], tab[1]);
+  purple_debug_info("netsoul", "got_mail 0:%s, 1:%s\n", tab[0], tab[1]);
   from = url_decode(tab[2]);
   if (*tab[3])
     subject = url_decode(tab[3]);
   else
     subject = NULL;
-  gaim_notify_email (gc, subject, from, "me", "", NULL, NULL);
+  purple_notify_email (gc, subject, from, "me", "", NULL, NULL);
   g_strfreev(tab);
 }
 
-void	ns_user_cmd(GaimConnection *gc, char **msg)
+void	ns_user_cmd(PurpleConnection *gc, char **msg)
 {
   char	**who;
   char	**tab2;
@@ -313,9 +313,9 @@ void	ns_user_cmd(GaimConnection *gc, char **msg)
 }
 
 
-void	ns_listen(gpointer data, gint source, GaimInputCondition cond)
+void	ns_listen(gpointer data, gint source, PurpleInputCondition cond)
 {
-  GaimConnection	*gc = data;
+  PurpleConnection	*gc = data;
   NetsoulData		*ns = gc->proto_data;
   char	buf[NS_BUF_LEN];
   char	**tab;
@@ -324,14 +324,14 @@ void	ns_listen(gpointer data, gint source, GaimInputCondition cond)
   for (len = 0; len < NS_BUF_LEN; len++) {
     if ((read(source, buf + len, 1)) <= 0)
     {
-      gaim_connection_error(gc, _("Error reading from server"));
+      purple_connection_error(gc, _("Error reading from server"));
       return;
     }
     if (buf[len] == '\n')
       break;
   }
   buf[len] = '\0';
-  gaim_debug_info("netsoul", "Netsoul received (%d) : %s\n", len, buf);
+  purple_debug_info("netsoul", "Netsoul received (%d) : %s\n", len, buf);
   tab = g_strsplit(buf, " ", 2);
   if (!(strncmp(*tab, "rep", 5)))
     ns_use_rep(gc, tab + 1);
