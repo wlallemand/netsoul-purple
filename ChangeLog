@@ -1,3 +1,11 @@
+2007-05-07  Guillaume Leroi  <guillaume.leroi@lrde.epita.fr>
+
+	Handle correctly buddy's icons.
+	Icon are finally working!
+	* src/netsoul.c: Use purple_buddy_icon_new to create a icon and set it
+	to the buddy.
+	* src/netsoul.h: Add string.h to reduce warning at compile time.
+
 2007-05-06  Guillaume Leroi  <guillaume.leroi@lrde.epita.fr>
 
 	Suppress a segfault.
