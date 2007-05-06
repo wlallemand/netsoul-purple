@@ -114,6 +114,7 @@ char *netsoul_conn_text_html(NetsoulConn *nc)
 
 static void netsoul_tooltip_text(PurpleBuddy *gb, PurpleNotifyUserInfo *user_info, gboolean full)
 {
+  purple_debug_info("netsoul", "netsoul_tooltip_text");
   NetsoulBuddy	*nb = gb->proto_data;
   char	*resp, *nctxt;
   GList	*tmp;
@@ -122,10 +123,10 @@ static void netsoul_tooltip_text(PurpleBuddy *gb, PurpleNotifyUserInfo *user_inf
   int	i;
   PurpleConnection *gc = purple_account_get_connection (purple_buddy_get_account(gb));
   NetsoulData *ns = gc->proto_data;
-  PurpleBuddyIcon *icon = purple_buddy_get_icon (gb);
+  //PurpleBuddyIcon *icon = purple_buddy_get_icon (gb);
 
   purple_debug_info("netsoul", "netsoul_tooltip_text %s icon_type: %s\n",
-		    gb->name, purple_buddy_icon_get_extension(icon));
+		    gb->name, "plop"); //purple_buddy_icon_get_extension(icon));
   if (nb == NULL)
   {
     nb = g_new0(NetsoulBuddy, 1);
@@ -138,9 +139,11 @@ static void netsoul_tooltip_text(PurpleBuddy *gb, PurpleNotifyUserInfo *user_inf
   }
    if (nb->nblocations == 0)
      return;
+
   purple_debug_info("netsoul", "netsoul_tooltip_text nblocation != 0\n");
   tab = g_new0(char *, nb->nblocations + 1);
-  for (i = 0, tmp = nb->locationlist; tmp; tmp = tmp->next, i++) {
+  for (i = 0, tmp = nb->locationlist; tmp; tmp = tmp->next, i++)
+  {
     nc = tmp->data;
     tab[i] = netsoul_conn_text(nc);
   }
@@ -647,7 +650,7 @@ static void init_plugin(PurplePlugin *plugin)
     prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option);
 
     _netsoul_plugin = plugin;
-};
+}
 
 
 PURPLE_INIT_PLUGIN(netsoul, init_plugin, info);
