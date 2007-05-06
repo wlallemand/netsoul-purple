@@ -1,3 +1,9 @@
+2007-05-06  Guillaume Leroi  <guillaume.leroi@lrde.epita.fr>
+
+	Suppress a segfault.
+	This is a temporary fix.
+	* src/netsoul.c: Removes call to icon related functions.
+
 2007-05-04  Guillaume Leroi  <guillaume.leroi@lrde.epita.fr>
 
 	Move to Pidgin.
