@@ -123,10 +123,11 @@ static void netsoul_tooltip_text(PurpleBuddy *gb, PurpleNotifyUserInfo *user_inf
   int	i;
   PurpleConnection *gc = purple_account_get_connection (purple_buddy_get_account(gb));
   NetsoulData *ns = gc->proto_data;
-  //PurpleBuddyIcon *icon = purple_buddy_get_icon (gb);
+  PurpleBuddyIcon *icon = purple_buddy_get_icon (gb);
 
-  purple_debug_info("netsoul", "netsoul_tooltip_text %s icon_type: %s\n",
-		    gb->name, "plop"); //purple_buddy_icon_get_extension(icon));
+  if (icon != NULL)
+    purple_debug_info("netsoul", "netsoul_tooltip_text %s icon_type: %s\n",
+		      gb->name, purple_buddy_icon_get_extension(icon));
   if (nb == NULL)
   {
     nb = g_new0(NetsoulBuddy, 1);
@@ -253,10 +254,11 @@ static void netsoul_close (PurpleConnection *gc)
   purple_input_remove(gc->inpa);
 }
 
-#if 0
+
 /*
  netsoul_got_photo: active me when FIXME are fix.
  */
+
 static void netsoul_got_photo (PurpleUtilFetchUrlData *url, void *user_data,
 			       const char *photo, size_t len, const char *error_msg)
 {
@@ -267,19 +269,31 @@ static void netsoul_got_photo (PurpleUtilFetchUrlData *url, void *user_data,
   PurpleConnection *gc = purple_account_get_connection (account);
   if (gc == NULL)
     return;
-  purple_debug_info ("netsoul", "netsoul_got_photo (size: %d) for %s\n",
-		   len,
-		   gb->name);
-  if (len)
+
+  purple_debug_info("netsoul", "netsoul_got_photo (size: %d) for %s\n",
+		    len,
+		    gb->name);
+
+  /* Try to put the photo in , if there's one and is readable */
+  if (user_data && photo && len != 0)
   {
-    //FIXME: Don't know of to get data from PurpleUtilFetchUrlData
-    // Picture data are somewhere but don't know where.
-    PurpleStoredImage *imgstore = purple_imgstore_add(url->webdata, len, photo);
-    gpointer img = (gpointer)purple_imgstore_get_data (imgstore);
-    purple_buddy_icons_set_for_user (account, gb->name, img, len, NULL);
+    if (strstr(photo, "400 Bad Request")
+	|| strstr(photo, "403 Forbidden")
+	|| strstr(photo, "404 Not Found"))
+      purple_debug_info("netsoul", "error: %s\n", photo);
+    else
+    {
+      char buf[1024];
+      PurpleStoredImage *img = purple_imgstore_add(g_memdup(photo, len), len, NULL);
+      PurpleBuddyIcon *icon = purple_buddy_icon_new(account, gb->name,
+						    purple_imgstore_get_data(img),
+						    purple_imgstore_get_size(img),
+						    NULL);
+      purple_buddy_set_icon(gb, icon);
+    }
   }
 }
-#endif
+
 
 /*
   netsoul_add_buddy
@@ -299,8 +313,7 @@ static void netsoul_add_buddy (PurpleConnection *gc, PurpleBuddy *buddy, PurpleG
   // Get photo
   photo = g_strdup_printf("%s%s", NETSOUL_PHOTO_URL, buddy->name);
 
-  //FIXME: uncomment me when FIXME in netsoul_get_photo is fix. :)
-  //purple_util_fetch_url(photo, TRUE, NULL, FALSE, netsoul_got_photo, buddy);
+  purple_util_fetch_url(photo, TRUE, NULL, FALSE, netsoul_got_photo, buddy);
 
   // if contact is not already is watch list, add it
   ns_watch_buddy(gc, buddy);
@@ -365,8 +378,7 @@ void netsoul_get_buddies (PurpleConnection* gc)
 	  // Get photo
 	  photo = g_strdup_printf("%s%s", NETSOUL_PHOTO_URL, buddy->name);
 
-	  //FIXME: uncomment me when FIXME in netsoul_get_photo is fix. :)
-	  // purple_util_fetch_url(photo, TRUE, NULL, FALSE, netsoul_got_photo, buddy);
+	  purple_util_fetch_url(photo, TRUE, NULL, FALSE, netsoul_got_photo, buddy);
 
 	  // if contact is not already is watch list, add it
 	  ns_watch_buddy(gc, buddy);

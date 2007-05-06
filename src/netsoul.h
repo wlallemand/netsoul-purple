@@ -30,6 +30,7 @@
 
 #include <stdlib.h>
 #include <errno.h>
+#include <string.h>
 
 #include <glib.h>
 #include <glib/gi18n.h>
