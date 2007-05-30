@@ -1,3 +1,16 @@
+2007-05-30  Guillaume Leroi  <guillaume.leroi@lrde.epita.fr>
+
+	Install correctly icons.
+	* 16/netsoul.png:,
+	* 16:,
+	* 22/netsoul.png:,
+	* 22:,
+	* 48/netsoul.png:,
+	* 48: New. Resize icons.
+	* Makefile.in:,
+	* Makefile.am: Correctly install icons in pixmap/pidgin/protocols.
+	* netsoul.png: Remove.
+
 2007-05-07  Guillaume Leroi  <guillaume.leroi@lrde.epita.fr>
 
 	Handle correctly buddy's icons.
