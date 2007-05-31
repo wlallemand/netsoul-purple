@@ -61,7 +61,7 @@ AC_SUBST(PIDGIN_CFLAGS)
 
 AM_PATH_GLIB_2_0(2.0.0,,AC_MSG_ERROR([
 *** GLib 2.0 is required to build gaim-netsoul; please make sure you have
-*** the GLib development headers installed. The latest version of GLib is 
+*** the GLib development headers installed. The latest version of GLib is
 *** always available at http://www.gtk.org/.]))
 AC_SUBST(GLIB_CFLAGS)
 
@@ -82,9 +82,9 @@ LIBTOOL="$LIBTOOL --silent"
 #
 AM_CONFIG_HEADER(pre_config.h)
 AC_OUTPUT([Makefile
-		   gaim-netsoul.spec
-		   pixmaps/Makefile
-		   src/Makefile
+		gaim-netsoul.spec
+		pixmaps/Makefile
+		src/Makefile
 		  ])
 
 echo;

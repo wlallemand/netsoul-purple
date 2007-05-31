@@ -256,7 +256,7 @@ static void netsoul_close (PurpleConnection *gc)
 
 
 /*
- netsoul_got_photo: active me when FIXME are fix.
+ netsoul_got_photo
  */
 
 static void netsoul_got_photo (PurpleUtilFetchUrlData *url, void *user_data,
@@ -280,10 +280,9 @@ static void netsoul_got_photo (PurpleUtilFetchUrlData *url, void *user_data,
     if (strstr(photo, "400 Bad Request")
 	|| strstr(photo, "403 Forbidden")
 	|| strstr(photo, "404 Not Found"))
-      purple_debug_info("netsoul", "error: %s\n", photo);
+      purple_debug_info("netsoul", "netsoul_got_photo: error: %s\n", photo);
     else
     {
-      char buf[1024];
       PurpleStoredImage *img = purple_imgstore_add(g_memdup(photo, len), len, NULL);
       PurpleBuddyIcon *icon = purple_buddy_icon_new(account, gb->name,
 						    purple_imgstore_get_data(img),
