@@ -38,10 +38,13 @@ int	netsoul_send_passwd(PurpleConnection *gc)
   res = crypt_pass(seed);
   g_free(seed);
   loc = (char *) purple_account_get_string(account,
-					 "location",
-					 NETSOUL_DEFAULT_LOCATION);
-  com = (char *) purple_account_get_string(account, "comment", NETSOUL_DEFAULT_COMMENT);
-  seed = g_strdup_printf("ext_user_log %s %s %s %s\n", purple_account_get_username(account), res,
+					   "location",
+					   NETSOUL_DEFAULT_LOCATION);
+  com = (char *) purple_account_get_string(account,
+					   "comment",
+					   NETSOUL_DEFAULT_COMMENT);
+  seed = g_strdup_printf("ext_user_log %s %s %s %s\n",
+			 purple_account_get_username(account), res,
 			 url_encode(loc), url_encode(com));
   return (netsoul_write(ns, seed));
 }
@@ -83,7 +86,8 @@ static void netsoul_login_greeting (gpointer data, gint source, PurpleInputCondi
   char	buf[1024];
   char	**tab;
 
-  if ((read(source, buf, 1024)) < 0) {
+  if ((read(source, buf, 1024)) < 0)
+  {
     purple_debug_info ("netsoul", "putain!! %s %u\n", strerror (errno), PURPLE_INPUT_READ & cond);
     purple_connection_error(gc, _("Couldn't read from server"));
     return;
@@ -101,7 +105,8 @@ static void netsoul_login_greeting (gpointer data, gint source, PurpleInputCondi
   ns->host = strdup(tab[3]);
   ns->port = atoi(tab[4]);
   ns->fd = source;
-  if (netsoul_write(ns, "auth_ag ext_user none none\n") < 0) {
+  if (netsoul_write(ns, "auth_ag ext_user none none\n") < 0)
+  {
     purple_connection_error(gc, _("Connection Error"));
     g_strfreev(tab);
     return;
