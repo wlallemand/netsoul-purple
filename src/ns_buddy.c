@@ -99,8 +99,12 @@ inform_conv (PurpleConnection *gc, PurpleBuddy *gb, gboolean idchanged, gboolean
     return;
   if ((nb->state == NS_STATE_SEVERAL_ACTIF) || (nb->state == NS_STATE_SEVERAL_INACTIF)) {
     if (!waschatty) {
-      tmp = g_strdup_printf ("%s is (in)active at several locations. Now sending messages to all locations.",
-			     (gb->alias) ? gb->alias : gb->name );
+      const char	*message;
+      if (nb->state == NS_STATE_SEVERAL_ACTIF)
+        message = "%s is active at several locations. Now sending messages to all locations.";
+      else
+        message = "%s is inactive at several locations. Now sending messages to all locations.";
+      tmp = g_strdup_printf (message, (gb->alias) ? gb->alias : gb->name );
       purple_conversation_write(conv, NULL, tmp, PURPLE_MESSAGE_SYSTEM, time(NULL));
       g_free (tmp);
     }
