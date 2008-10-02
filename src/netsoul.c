@@ -218,6 +218,20 @@ static void netsoul_set_away(PurpleAccount *account, PurpleStatus* status)
 static void netsoul_set_idle(PurpleConnection *gc, int idletime)
 {
   purple_debug_info("netsoul", "netsoul_set_idle. idletime:%d\n", idletime);
+  if (idletime)
+    ns_send_state(gc, NS_STATE_IDLE, idletime);
+  else {
+    int ns_state = NS_STATE_ACTIF;
+    PurpleAccount *account = NULL;
+    PurpleStatus *status = NULL;
+    PurplePresence* state = NULL;
+    if ((account = purple_connection_get_account(gc)) &&
+        (status = purple_account_get_active_status(account)) &&
+        (state = purple_status_get_presence (status)) &&
+        !purple_presence_is_available(state))
+      ns_state = NS_STATE_AWAY;
+    ns_send_state(gc, ns_state, 0);
+  }
 }
 
 /*
