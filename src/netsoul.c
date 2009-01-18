@@ -82,6 +82,7 @@ char *netsoul_conn_text(NetsoulConn *nc)
   state = ns_state_to_text(nc->state);
   resp = g_strdup_printf("\n<b>Location:</b> %s\n<b>IP:</b> %s\n<b>Comment:</b> %s\n<b>Logged in:</b> %s<b>State:</b> %s\n  <b>since:</b> %s",
 			 nc->location, nc->ip, nc->comment, loggedin, state, statetime);
+
   g_free(loggedin);
   g_free(statetime);
   g_free(state);
@@ -93,16 +94,23 @@ char *netsoul_conn_text_html(NetsoulConn *nc)
   char	*loggedin;
   char	*statetime;
   char	*state;
+  char	*state2;
   char	*resp;
 
   loggedin = ns_readable_time(nc->logintime);
-  statetime = ns_readable_time(nc->statetime);
   state = ns_state_to_text(nc->state);
-  resp = g_strdup_printf("<b>Location:</b> %s<br><b>IP:</b> %s<br><b>Comment:</b> %s<br><b>Logged in:</b> %s<br><b>State:</b> %s<br>  <b>since:</b> %s",
-			 nc->location, nc->ip, nc->comment, loggedin, state, statetime);
+  if (nc->statetime) {
+    statetime = ns_readable_time(nc->statetime);
+    state2 = g_strdup_printf("%s (%s)", state, statetime);
+    g_free(statetime);
+    g_free(state);
+  }
+  else
+    state2 = state;
+  resp = g_strdup_printf("<b>Location:</b> %s<br><b>IP:</b> %s<br><b>Comment:</b> %s<br><b>Logged in:</b> %s<br><b>State:</b> %s",
+			 nc->location, nc->ip, nc->comment, loggedin, state2);
   g_free(loggedin);
-  g_free(statetime);
-  g_free(state);
+  g_free(state2);
   return resp;
 }
 
