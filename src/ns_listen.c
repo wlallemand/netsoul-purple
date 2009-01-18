@@ -26,6 +26,10 @@
 void	ns_use_rep(PurpleConnection *gc, char **msg)
 {
   NetsoulData	*ns = gc->proto_data;
+  PurpleAccount *account = NULL;
+  PurpleStatus  *status = NULL;
+  PurplePresence *state = NULL;
+  int           ns_state = NS_STATE_ACTIF;
 
   if (ns->state == NS_STATE_SENT_EXTUSERLOG) {
     if (atoi(*msg) == 2) {
@@ -33,8 +37,13 @@ void	ns_use_rep(PurpleConnection *gc, char **msg)
       purple_debug_info("netsoul", "end ns_use_rep\n");
       purple_connection_set_state(gc, PURPLE_CONNECTED);
       purple_debug_info("netsoul", "end ns_use_rep\n");
-      //serv_finish_login(gc);
-      ns_send_state(gc, NS_STATE_ACTIF, time(NULL));
+      /* serv_finish_login(gc); */
+      if ((account = purple_connection_get_account(gc)) &&
+          (status = purple_account_get_active_status(account)) &&
+          (state = purple_status_get_presence(status)) &&
+          !purple_presence_is_available(state))
+        ns_state = purple_presence_is_idle(state) ? NS_STATE_IDLE : NS_STATE_AWAY;
+      ns_send_state(gc, ns_state, time(NULL));
       ns_list_users(gc, ns->watchlist);
       return;
     }
