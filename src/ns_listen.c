@@ -179,6 +179,13 @@ void	ns_user_update(PurpleConnection *gc, char **msg)
   char		*speclogin;
 
   msg2 = g_strsplit(msg[1], " ", 0);
+  if (g_strv_length(msg2) < 11) {
+    purple_debug_info("netsoul",
+                      "bogus ns_user_update: length(msg2) = %i, message = %s\n",
+                      g_strv_length(msg2), msg[1]);
+    g_strfreev(msg2);
+    return;
+  }
   speclogin = g_strdup_printf("%s@%s", *msg2, url_decode(msg2[7]));
   purple_debug_info("netsoul", "ns_user_update : %s[%s]\n", speclogin, *msg);
   // get the gaimbuddy
