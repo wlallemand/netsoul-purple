@@ -186,32 +186,21 @@ void	ns_compute_update_state(PurpleConnection *gc, PurpleBuddy *gb)
       nb->defaultid = 0;
     }
   }
-  // setting the idle time
-  if ((nb->state == NS_STATE_ACTIF)
-      || (nb->state == NS_STATE_ACTIF_MORE)
-      || (nb->state == NS_STATE_SEVERAL_ACTIF)
-      || (nb->state == NS_STATE_CONNECTION))
-    idle = 0;
-  else
-    idle = nb->laststate;
 
-  purple_debug_info("netsoul", "idle:%d state:%d\n", idle, nb->state);
-  char *state_text = ns_state_to_text(nb->state);
-  purple_debug_info("netsoul", "status_update %s, log:%d, signon:%ld",
-		    gb->name, loggedin, nb->signon);
-  purple_debug_info("netsoul", ", idle:%d, state:%s\n", idle, state_text);
-  
-  // Inform Purple that status changed
+  /* Inform Purple that status changed */
   if (nb->state == NS_STATE_NOT_CONNECTED)
     purple_prpl_got_user_status(account, gb->name, "offline", NULL);
-  else
+  else if ((nb->state == NS_STATE_ACTIF)
+           || (nb->state == NS_STATE_ACTIF_MORE)
+           || (nb->state == NS_STATE_SEVERAL_ACTIF)
+           || (nb->state == NS_STATE_CONNECTION)) {
     purple_prpl_got_user_status(account, gb->name, "available", NULL);
-  g_free (state_text);
-  if (idle)
-    purple_prpl_got_user_idle(account, gb->name, 1, -1);
-  else
     purple_prpl_got_user_idle(account, gb->name, FALSE, 0);
-  //serv_got_update(gc, gb->name, loggedin, 0, nb->signon, idle, nb->state);
+  }
+  else {
+    purple_prpl_got_user_status(account, gb->name, "away", NULL);
+    purple_prpl_got_user_idle(account, gb->name, 1, -1);
+  }
   inform_conv(gc, gb, oldid == nb->defaultid, waschatty);
 }
 
