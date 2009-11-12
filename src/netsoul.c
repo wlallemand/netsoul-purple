@@ -634,10 +634,12 @@ static PurplePluginProtocolInfo prpl_info =
     NULL,                           /* roomlist_expand_catagory */
     NULL,                           /* can_receive_file */
     NULL,                           /* send_file        */
-    NULL,                           /* new_xfer */
-    NULL,                           /* offline_message */
-    NULL,                           /* whiteboard_prpl_ops */
-    NULL                            /* send_raw */
+    NULL,			    /* send_attention      */
+    NULL,			    /* get_attention_types */
+    sizeof(PurplePluginProtocolInfo),
+    NULL,			    /* get_account_text_table */
+    NULL,			    /* initiate_media */
+    NULL			    /* can_do_media */
 };
 
 
