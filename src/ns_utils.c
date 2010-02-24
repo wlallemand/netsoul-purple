@@ -240,7 +240,7 @@ char  *crypt_pass(char *password)
 {
   unsigned char	pass[16];
   char		*out;
-  unsigned	len;
+  size_t	len;
   PurpleCipher *md5;
   PurpleCipherContext *context;
 
