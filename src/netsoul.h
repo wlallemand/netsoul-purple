@@ -49,12 +49,12 @@
 #include "cipher.h"
 #include "imgstore.h"
 
-#define NETSOUL_WEBSITE "http://www.sourceforge.net/projects/gaim-netsoul/"
+#define NETSOUL_WEBSITE "http://projects.irq6.net/projects/show/netsoul-purple"
 
 #define NETSOUL_DEFAULT_SERVER "ns-server.epita.fr"
 #define NETSOUL_DEFAULT_PORT 4242
-#define NETSOUL_DEFAULT_LOCATION "maison"
-#define NETSOUL_DEFAULT_COMMENT "Netsoul for Purple is Funky!"
+#define NETSOUL_DEFAULT_LOCATION "Home"
+#define NETSOUL_DEFAULT_COMMENT "netsoul-purple"
 
 #define NETSOUL_PHOTO_URL "http://www.epitech.net/intra/photo.php?login="
 

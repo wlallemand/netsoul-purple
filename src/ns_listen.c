@@ -203,7 +203,8 @@ void	ns_user_update(PurpleConnection *gc, char **msg)
   } else {
     // if id exists in list, update it
     nc->state = ns_text_to_state(*tab);
-    nc->statetime = atol(tab[1]);
+    if (tab[1])
+      nc->statetime = atol(tab[1]);
   }
   g_free(speclogin);
   g_strfreev(tab);
