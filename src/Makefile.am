@@ -3,7 +3,7 @@ EXTRA_DIST = \
 
 plugindir = $(libdir)/purple-2
 
-libnetsoul_la_LDFLAGS = -module -avoid-version -L/usr/lib -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err
+libnetsoul_la_LDFLAGS = -module -avoid-version -L/usr/lib
 
 if PLUGINS
 
