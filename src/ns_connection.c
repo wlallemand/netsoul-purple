@@ -85,15 +85,18 @@ static void netsoul_login_greeting (gpointer data, gint source, PurpleInputCondi
   NetsoulData *ns = gc->proto_data;
   char	buf[1024];
   char	**tab;
+  memset(&buf, 0, 1024);
 
   if ((read(source, buf, 1024)) < 0)
   {
-    purple_debug_info ("netsoul", "putain!! %s %u\n", strerror (errno), PURPLE_INPUT_READ & cond);
+    purple_debug_info ("netsoul", "!!! %s %u\n", strerror (errno), PURPLE_INPUT_READ & cond);
     purple_connection_error(gc, _("Couldn't read from server"));
     return;
   }
   purple_debug_info("netsoul", "netsoul_login_connect received: %s\n", buf);
   tab = g_strsplit(buf, " ", 6);
+  if (!tab[0])
+    return;
   if (strncmp(tab[0], "salut", 5) || !tab[4]) {
     purple_connection_error(gc, _("Wrong greetings from server\n"));
     purple_debug_info("netsoul", "Error on str : %s\n", buf);
