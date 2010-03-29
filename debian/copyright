@@ -1,0 +1,24 @@
+This package was debianized by William Lallemand <wlallemand@gmail.com> on
+Sun, 28 Mar 2010 19:53:16 +0200.
+
+It was downloaded from git://projects.irq6.net/netsoul-purple.git
+
+Upstream Author(s):
+      William Lallemand <wlallemand@gmail.com>
+
+Copyright:
+    Copyright (C) 2010 William Lallemand
+
+License:
+
+    GPLv2
+
+The Debian packaging is:
+
+    Copyright (C) 2010 William Lallemand <wlallemand@gmail.com>
+
+and is licensed under the GPL version 2, 
+see `/usr/share/common-licenses/GPL-2'.
+
+# Please also look if there are files or directories which have a
+# different copyright/license attached and list them here.

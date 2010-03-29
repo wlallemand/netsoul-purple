@@ -1,0 +1,15 @@
+Source: netsoul-purple
+Section: net
+Priority: extra
+Maintainer: William Lallemand <wlallemand@gmail.com>
+Build-Depends: quilt, debhelper (>= 7), autotools-dev, 
+  pidgin-dev(>= 2.6), libpurple-dev, libgtk2.0-dev, libglib2.0-dev
+
+Standards-Version: 3.8.1
+Homepage: http://projects.irq6.net/projects/show/netsoul-purple
+Package: netsoul-purple
+Architecture: any
+Depends: pidgin (>= 2.6), 
+Description: Netsoul Client for libpurple
+ netsoul-purple is a Netsoul client for the libpurple library.
+ You can use it with pidgin, finch, minbif...
