@@ -446,7 +446,7 @@ Copyright (C) 2009 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/home/sekh/workspace/GIT-netsoul-purple-0.2.x-dev'
+ac_pwd='/media/NAS/PROJECTS/netsoul-purple'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 MKDIR_P='/bin/mkdir -p'
@@ -663,8 +663,8 @@ postuninstall_cmds=''
 finish_cmds='PATH="\$PATH:/sbin" ldconfig -n $libdir'
 finish_eval=''
 hardcode_into_libs='yes'
-sys_lib_search_path_spec='/usr/lib/gcc/x86_64-linux-gnu/4.4.1 /usr/lib /lib /usr/lib/x86_64-linux-gnu'
-sys_lib_dlsearch_path_spec='/lib /usr/lib /usr/lib32/alsa-lib /usr/lib/alsa-lib /usr/local/lib /lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu '
+sys_lib_search_path_spec='/usr/lib/gcc/x86_64-linux-gnu/4.4.4 /usr/lib /lib /usr/lib/x86_64-linux-gnu'
+sys_lib_dlsearch_path_spec='/lib /usr/lib /usr/local/lib /lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu '
 hardcode_action='immediate'
 enable_dlopen='unknown'
 enable_dlopen_self='unknown'
@@ -718,7 +718,7 @@ fi
 
 
     PACKAGE='gaim-netsoul'
-    VERSION='0.2.4'
+    VERSION='0.2.5'
     TIMESTAMP=''
     RM='rm -f'
     ofile='libtool'
@@ -838,11 +838,11 @@ S["GOBJECT_QUERY"]="gobject-query"
 S["GLIB_GENMARSHAL"]="glib-genmarshal"
 S["GLIB_LIBS"]="-lglib-2.0  "
 S["GLIB_CFLAGS"]="-I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  "
-S["PIDGIN_LIBS"]="-lgtk-x11-2.0 -lpurple -lgdk-x11-2.0 -latk-1.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lgio-2.0 -lcairo -lpango-1.0 -lfreetype -lfontc"\
-"onfig -lgobject-2.0 -lgmodule-2.0 -lglib-2.0  "
-S["PIDGIN_CFLAGS"]="-D_REENTRANT -I/usr/include/pidgin -I/usr/include/gtk-2.0 -I/usr/include/libpurple -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/"\
-"cairo -I/usr/include/pango-1.0 -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/directfb -I/usr/include/libpng12 -I/usr/include/glib-"\
-"2.0 -I/usr/lib/glib-2.0/include  "
+S["PIDGIN_LIBS"]="-pthread -lgtk-x11-2.0 -lpurple -lgdk-x11-2.0 -latk-1.0 -lpangoft2-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lcairo -lgio-2.0 -lpango-1.0 -lfreetyp"\
+"e -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0  "
+S["PIDGIN_CFLAGS"]="-pthread -I/usr/include/pidgin -I/usr/include/gtk-2.0 -I/usr/include/libpurple -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cair"\
+"o -I/usr/include/pango-1.0 -I/usr/include/gio-unix-2.0/ -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng12 -I/usr/include/glib"\
+"-2.0 -I/usr/lib/glib-2.0/include  "
 S["PKG_CONFIG"]="/usr/bin/pkg-config"
 S["DEBUG_CFLAGS"]=""
 S["am__fastdepCC_FALSE"]="#"
@@ -864,7 +864,7 @@ S["CC"]="gcc"
 S["sedpath"]="/bin/sed"
 S["am__untar"]="${AMTAR} xf -"
 S["am__tar"]="${AMTAR} chof - \"$$tardir\""
-S["AMTAR"]="${SHELL} /home/sekh/workspace/GIT-netsoul-purple-0.2.x-dev/missing --run tar"
+S["AMTAR"]="${SHELL} /media/NAS/PROJECTS/netsoul-purple/missing --run tar"
 S["am__leading_dot"]="."
 S["SET_MAKE"]=""
 S["AWK"]="gawk"
@@ -872,13 +872,13 @@ S["mkdir_p"]="/bin/mkdir -p"
 S["MKDIR_P"]="/bin/mkdir -p"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]="strip"
-S["install_sh"]="$(SHELL) /home/sekh/workspace/GIT-netsoul-purple-0.2.x-dev/install-sh"
-S["MAKEINFO"]="${SHELL} /home/sekh/workspace/GIT-netsoul-purple-0.2.x-dev/missing --run makeinfo"
-S["AUTOHEADER"]="${SHELL} /home/sekh/workspace/GIT-netsoul-purple-0.2.x-dev/missing --run autoheader"
-S["AUTOMAKE"]="${SHELL} /home/sekh/workspace/GIT-netsoul-purple-0.2.x-dev/missing --run automake-1.10"
-S["AUTOCONF"]="${SHELL} /home/sekh/workspace/GIT-netsoul-purple-0.2.x-dev/missing --run autoconf"
-S["ACLOCAL"]="${SHELL} /home/sekh/workspace/GIT-netsoul-purple-0.2.x-dev/missing --run aclocal-1.10"
-S["VERSION"]="0.2.4"
+S["install_sh"]="$(SHELL) /media/NAS/PROJECTS/netsoul-purple/install-sh"
+S["MAKEINFO"]="${SHELL} /media/NAS/PROJECTS/netsoul-purple/missing --run makeinfo"
+S["AUTOHEADER"]="${SHELL} /media/NAS/PROJECTS/netsoul-purple/missing --run autoheader"
+S["AUTOMAKE"]="${SHELL} /media/NAS/PROJECTS/netsoul-purple/missing --run automake-1.10"
+S["AUTOCONF"]="${SHELL} /media/NAS/PROJECTS/netsoul-purple/missing --run autoconf"
+S["ACLOCAL"]="${SHELL} /media/NAS/PROJECTS/netsoul-purple/missing --run aclocal-1.10"
+S["VERSION"]="0.2.5"
 S["PACKAGE"]="gaim-netsoul"
 S["CYGPATH_W"]="echo"
 S["am__isrc"]=""
@@ -970,7 +970,7 @@ D["PACKAGE_VERSION"]=" \"\""
 D["PACKAGE_STRING"]=" \"\""
 D["PACKAGE_BUGREPORT"]=" \"\""
 D["PACKAGE_URL"]=" \"\""
-D["NETSOUL_VERSION"]=" \"0.2.4\""
+D["NETSOUL_VERSION"]=" \"0.2.5\""
 D["HAVE_PIDGIN"]=" 1"
 D["STDC_HEADERS"]=" 1"
 D["HAVE_SYS_TYPES_H"]=" 1"

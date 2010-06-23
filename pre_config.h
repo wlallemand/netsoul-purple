@@ -47,7 +47,7 @@
 #define LT_OBJDIR ".libs/"
 
 /* Gaim-Netsoul Version */
-#define NETSOUL_VERSION "0.2.4"
+#define NETSOUL_VERSION "0.2.5"
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT ""

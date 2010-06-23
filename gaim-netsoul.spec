@@ -1,7 +1,7 @@
 %define rpmrelease 0
 Summary:    Netsoul protocol plugin for Gaim
 Name:       gaim-netsoul
-Version:    0.2.4
+Version:    0.2.5
 Release:    %{gaimver}%{?gaimdist:.%{gaimdist}}.%{rpmrelease}
 License:    GPL
 Group:      Applications/Internet
@@ -16,7 +16,7 @@ BuildRequires: pkgconfig, libtool, gaim-devel
 gaim-netsoul is a protocol plug-in for Gaim that allows using the netsoul IM service.
 
 To rebuild for a specific Gaim version or dist tag:
-rpmbuild --rebuild gaim-netsoul-0.2.4-%{rpmrelease}.src.rpm --define 'gaimver %{gaimver}' --define 'gaimdist fc1'
+rpmbuild --rebuild gaim-netsoul-0.2.5-%{rpmrelease}.src.rpm --define 'gaimver %{gaimver}' --define 'gaimdist fc1'
 
 %prep
 %setup -q
