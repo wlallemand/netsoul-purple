@@ -95,15 +95,15 @@ static void netsoul_login_greeting (gpointer data, gint source, PurpleInputCondi
   }
   purple_debug_info("netsoul", "netsoul_login_connect received: %s\n", buf);
   tab = g_strsplit(buf, " ", 6);
-  if (!tab[0])
-    return;
-  if (strncmp(tab[0], "salut", 5) || !tab[4]) {
+  if ((g_strv_length(tab) != 6) || strncmp(tab[0], "salut", 5))
+  {
     purple_connection_error(gc, _("Wrong greetings from server\n"));
     purple_debug_info("netsoul", "Error on str : %s\n", buf);
     g_strfreev(tab);
     return;
   }
   ns->id = atoi(tab[1]);
+  purple_debug_info("netsoul", "netsoul_login_connect tab[2]: %p\n", tab[2]);
   ns->challenge = strdup(tab[2]);
   ns->host = strdup(tab[3]);
   ns->port = atoi(tab[4]);
@@ -114,11 +114,15 @@ static void netsoul_login_greeting (gpointer data, gint source, PurpleInputCondi
     g_strfreev(tab);
     return;
   }
+  
+  
   purple_input_remove (gc->inpa);
   gc->inpa = purple_input_add(source, PURPLE_INPUT_READ, auth_response, gc);
   purple_debug_info("netsoul", "auth_ag sent, waiting for response\n");
   ns->state = NS_STATE_SENT_AUTH;
   purple_connection_update_progress(gc, _("auth_ag sent, waiting for response\n"), 1, 3);
+  g_strfreev(tab);
+  return;
 }
 
 static void netsoul_login_connect (gpointer data, gint source, const gchar *error)
