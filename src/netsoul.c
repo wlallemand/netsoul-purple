@@ -241,7 +241,8 @@ static void netsoul_close (PurpleConnection *gc)
 	if(((PurpleBuddy*)bnode)->account == gc->account)
 	{
 	  PurpleBuddy *buddy = (PurpleBuddy*)bnode;
-	  purple_buddy_icon_unref(purple_buddy_get_icon(buddy));
+	  if (buddy)
+	    purple_buddy_icon_unref(purple_buddy_get_icon(buddy));
 	}
       }
     }
