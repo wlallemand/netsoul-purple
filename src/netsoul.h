@@ -44,7 +44,6 @@
 #include "debug.h"
 #include "blist.h"
 #include "util.h"
-#include "pidgin.h"
 #include "version.h"
 #include "cipher.h"
 #include "imgstore.h"
