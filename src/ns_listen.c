@@ -221,6 +221,8 @@ void	ns_user_update(PurpleConnection *gc, char **msg)
     nc->state = ns_text_to_state(*tab);
     if (tab[1])
       nc->statetime = atol(tab[1]);
+    else
+      nc->statetime = time(NULL);
   }
   g_free(speclogin);
   g_strfreev(tab);
