@@ -108,6 +108,9 @@ static void netsoul_login_greeting (gpointer data, gint source, PurpleInputCondi
   ns->host = strdup(tab[3]);
   ns->port = atoi(tab[4]);
   ns->fd = source;
+  ns->read_len = 0;
+  ns->pos = 0;
+  ns->len = 0;
   if (netsoul_write(ns, "auth_ag ext_user none none\n") < 0)
   {
     purple_connection_error(gc, _("Connection Error"));

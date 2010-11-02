@@ -318,22 +318,32 @@ void	ns_listen(gpointer data, gint source, PurpleInputCondition cond)
 {
   PurpleConnection	*gc = data;
   NetsoulData		*ns = gc->proto_data;
-  char	buf[NS_BUF_LEN];
   char	**tab;
-  int	len;
+  ssize_t ret;
 
-  for (len = 0; len < NS_BUF_LEN; len++) {
-    if ((read(source, buf + len, 1)) <= 0)
+  for (; ns->len < NS_BUF_LEN - 1; ns->len++)
+  {
+    if (ns->pos >= ns->read_len)
     {
-      purple_connection_error(gc, _("Error reading from server"));
-      return;
+      ns->pos = 0;
+      ns->read_len = 0;
+      ret = read(source, ns->read_buf, NS_BUF_LEN);
+      if (ret == -1 && (errno == EAGAIN || errno == EWOULDBLOCK))
+        return;
+      if (ret == -1 || ret == 0)
+      {
+        purple_connection_error(gc, _("Error reading from server"));
+        return;
+      }
+      ns->read_len = ret;
     }
-    if (buf[len] == '\n')
+    ns->buf[ns->len] = ns->read_buf[ns->pos++];
+    if (ns->buf[ns->len] == '\n')
       break;
   }
-  buf[len] = '\0';
-  purple_debug_info("netsoul", "Netsoul received (%d) : %s\n", len, buf);
-  tab = g_strsplit(buf, " ", 2);
+  ns->buf[ns->len] = '\0';
+  purple_debug_info("netsoul", "Netsoul received (%d) : %s\n", ns->len, ns->buf);
+  tab = g_strsplit(ns->buf, " ", 2);
   if (!(strncmp(*tab, "rep", 5)))
     ns_use_rep(gc, tab + 1);
   else if (!(strncmp(*tab, "user_cmd", 8)))
@@ -343,4 +353,5 @@ void	ns_listen(gpointer data, gint source, PurpleInputCondition cond)
   else if (atoi(*tab) > 0)
     ns_user_update(gc, tab);
   g_strfreev(tab);
+  ns->len = 0;
 }

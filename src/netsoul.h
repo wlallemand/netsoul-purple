@@ -89,6 +89,11 @@ typedef struct		_NetsoulData {
   int			fd;
   PurpleConvChat		conv;
   GList			*watchlist;
+  char			read_buf[NS_BUF_LEN];
+  int			read_len;
+  int			pos;
+  char			buf[NS_BUF_LEN];
+  int			len;
 }			NetsoulData;
 
 typedef struct  _NetsoulBuddy {
