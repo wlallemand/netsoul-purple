@@ -1,9 +1,30 @@
-Makefile.in
+#created by aclocal
+autom4te.cache
+aclocal.m4
 
-/autom4te.cache
-/aclocal.m4
-/compile
-/configure
-/depcomp
-/install-sh
-/missing
+#created by libtoolize
+m4
+ltmain.sh
+
+#created by autoconf
+configure
+
+#created by automake
+install-sh
+missing
+depcomp
+Makefile.in
+config.guess
+config.sub
+
+#created by ./configure
+.deps
+Makefile
+config.log
+config.status
+libtool
+
+#created by make
+*.o
+*.lo
+.libs
