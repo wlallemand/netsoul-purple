@@ -1,10 +1,13 @@
 Authors
 =======
+William Lallemand <lallem_w@epitech.eu>
 Edward Hervey <hervey_e@epitech.net>
 Julien Stuyck <stuyck_j@epita.fr>
 Guillaume Leroi <leroi_g@epita.fr>
 
 Greets
 ======
-Glitch for his ethereal dump :)
-Goudal Francois <goudal_f@epita.fr> : BUGFIX disconnections detection
+Glitch
+Goudal Francois <goudal_f@epita.fr>
+Frank LENORMAND <lenorm_f@epitech.eu>
+Benjamin Gaillard <benjamin.gaillard@epitech.eu>
