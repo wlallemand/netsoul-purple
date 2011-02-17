@@ -23,6 +23,11 @@ Makefile
 config.log
 config.status
 libtool
+stamp-h1
+netsoul_config.h
+pre_config.h
+gaim-netsoul.spec
+
 
 #created by make
 *.o
