@@ -28,6 +28,9 @@ netsoul_config.h
 pre_config.h
 gaim-netsoul.spec
 
+#created by debuild
+debian/files
+
 
 #created by make
 *.o
