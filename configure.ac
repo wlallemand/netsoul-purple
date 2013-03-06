@@ -80,7 +80,8 @@ LIBTOOL="$LIBTOOL --silent"
 #
 # Finish up
 #
-AM_CONFIG_HEADER(pre_config.h)
+AC_CONFIG_HEADERS(pre_config.h)
+AC_CONFIG_MACRO_DIR([m4])
 AC_OUTPUT([Makefile
 		gaim-netsoul.spec
 		pixmaps/Makefile
