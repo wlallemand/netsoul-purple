@@ -3,11 +3,12 @@
 # gaim-encryption configure script, thanks guys ;)
 #
 
-AC_INIT(src/netsoul.c)
-AC_PREREQ([2.50])
 
-NETSOUL_VERSION="`cat ./VERSION`"
-AM_INIT_AUTOMAKE([gaim-netsoul], $NETSOUL_VERSION, 'no-define')
+NETSOUL_VERSION=m4_esyscmd([tr -d '\n' <VERSION])
+AC_INIT([gaim-netsoul], m4_esyscmd([tr -d '\n' <VERSION]))
+AC_CONFIG_SRCDIR([src/netsoul.c])
+AC_PREREQ([2.50])
+AM_INIT_AUTOMAKE
 AC_DEFINE_UNQUOTED(NETSOUL_VERSION, "$NETSOUL_VERSION", [Gaim-Netsoul Version])
 
 AC_PATH_PROG(sedpath, sed)
