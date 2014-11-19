@@ -133,9 +133,8 @@ void	ns_compute_update_state(PurpleConnection *gc, PurpleBuddy *gb)
 {
   GList	*tmp;
   NetsoulConn	*nc;
-  gboolean	loggedin = TRUE;
   gboolean	waschatty;
-  int		nbc, defid, idle, oldid;
+  int		nbc, defid, oldid;
   NetsoulBuddy	*nb = gb->proto_data;
   PurpleAccount	*account = purple_connection_get_account (gc);
 
@@ -149,7 +148,6 @@ void	ns_compute_update_state(PurpleConnection *gc, PurpleBuddy *gb)
     nb->signon = 0;
     nb->laststate = 0;
     nb->defaultid = 0;
-    loggedin = FALSE;
   } else if (nb->nblocations == 1) {
     // else if buddy logged once, copy only conn data
     purple_debug_info("netsoul", "compute : nb1\n");

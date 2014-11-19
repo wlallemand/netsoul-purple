@@ -636,7 +636,7 @@ static PurplePluginProtocolInfo prpl_info =
     NULL,                           /* send_file        */
     NULL,			    /* send_attention      */
     NULL,			    /* get_attention_types */
-    sizeof(PurplePluginProtocolInfo),
+	NULL,				/* sizeof(PurplePluginProtocolInfo), */
     NULL,			    /* get_account_text_table */
     NULL,			    /* initiate_media */
     NULL			    /* can_do_media */
