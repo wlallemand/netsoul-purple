@@ -443,6 +443,7 @@ static void netsoul_remove_buddy (PurpleConnection *gc, PurpleBuddy *buddy, Purp
   }
   g_list_free(nb->locationlist);
   g_free(nb);
+  buddy->proto_data = NULL;
 }
 
 /*
@@ -525,19 +526,20 @@ static void netsoul_get_info(PurpleConnection *gc, const char *who)
 static const char* netsoul_list_emblems(PurpleBuddy *buddy)
 {
   NetsoulBuddy	*nb = buddy->proto_data;
+  NetsoulConn	*nc;
+  GList		*tmp;
 
   if (!nb)
-    return "";
+    return NULL;
   purple_debug_info("netsoul", "list_emblems %s\n", nb->login);
-  if ((nb->state == NS_STATE_AWAY) || (nb->state == NS_STATE_IDLE))
-    return "away";
-  if (nb->state == NS_STATE_SEVERAL_INACTIF)
-    return "extendedaway";
-  if ((nb->state == NS_STATE_SERVER) || (nb->state == NS_STATE_LOCK))
-    return "secure";
-  if ((nb->state == NS_STATE_SEVERAL_ACTIF) || (nb->state == NS_STATE_ACTIF_MORE))
-    return "activebuddy";
-  return "";
+  for (tmp = nb->locationlist; tmp; tmp = tmp->next)
+    {
+      nc = tmp->data;
+      if (nc && nc->ip &&
+	  nc->ip[0] == '1' && nc->ip[1] == '0' && nc->ip[2] == '.')
+	return "epitech";
+    }
+  return NULL;
 }
 
 /*
