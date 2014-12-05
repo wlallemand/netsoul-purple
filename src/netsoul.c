@@ -537,7 +537,13 @@ static const char* netsoul_list_emblems(PurpleBuddy *buddy)
       nc = tmp->data;
       if (nc && nc->ip &&
 	  nc->ip[0] == '1' && nc->ip[1] == '0' && nc->ip[2] == '.')
-	return "epitech";
+	{
+	  if ((nb->state == NS_STATE_AWAY) || (nb->state == NS_STATE_IDLE) ||
+	      (nb->state == NS_STATE_SERVER) || (nb->state == NS_STATE_LOCK) ||
+	      (nb->state == NS_STATE_SEVERAL_INACTIF))
+	    return "epitech_inactive";
+	  return "epitech";
+	}
     }
   return NULL;
 }
