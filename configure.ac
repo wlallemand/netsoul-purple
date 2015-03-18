@@ -5,7 +5,7 @@
 
 
 NETSOUL_VERSION=m4_esyscmd([tr -d '\n' <VERSION])
-AC_INIT([gaim-netsoul], m4_esyscmd([tr -d '\n' <VERSION]))
+AC_INIT([netsoul-purple], m4_esyscmd([tr -d '\n' <VERSION]))
 AC_CONFIG_SRCDIR([src/netsoul.c])
 AC_PREREQ([2.50])
 AM_INIT_AUTOMAKE
@@ -58,7 +58,7 @@ AC_SUBST(PIDGIN_CFLAGS)
 #
 
 AM_PATH_GLIB_2_0(2.0.0,,AC_MSG_ERROR([
-*** GLib 2.0 is required to build gaim-netsoul; please make sure you have
+*** GLib 2.0 is required to build netsoul-purple; please make sure you have
 *** the GLib development headers installed. The latest version of GLib is
 *** always available at http://www.gtk.org/.]))
 AC_SUBST(GLIB_CFLAGS)
@@ -81,7 +81,6 @@ LIBTOOL="$LIBTOOL --silent"
 AC_CONFIG_HEADERS(pre_config.h)
 AC_CONFIG_MACRO_DIR([m4])
 AC_OUTPUT([Makefile
-		gaim-netsoul.spec
 		pixmaps/Makefile
 		src/Makefile
 		  ])
