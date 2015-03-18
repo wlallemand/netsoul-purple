@@ -49,10 +49,7 @@ AC_SUBST(CFLAGS)
 # Check for Gaim
 #
 
-PKG_CHECK_MODULES(PIDGIN, pidgin,
-[
-   AC_DEFINE(HAVE_PIDGIN, 1, [Define if we've found gaim.])
-])
+PKG_CHECK_MODULES([PIDGIN], [pidgin], AC_SUBST([PIDGIN_CFLAGS]), [PKG_CHECK_MODULES([PIDGIN], [purple], AC_SUBST([PIDGIN_CFLAGS]))])
 
 AC_SUBST(PIDGIN_CFLAGS)
 
