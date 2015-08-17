@@ -1,14 +1,20 @@
-gaim-snpp:
-	Protocol Plugin (prpl) for Gaim for the netsoul IM protocol.
+netsoul-purple
+==============
 
-About
-=====
-	Netsoul is an instant messagin protocol for the students of EPITA/EPITECH.
+Protocol Plugin (prpl) for Pidgin (libpurple) for the netsoul IM protocol.
+Netsoul is the instant messaging protocol used in EPITA/EPITECH.
 
 INSTALL
-=======
-    Please see the INSTALL file
+-------
+
+Please see the INSTALL file
+
+Source Code
+-----------
+Git and releases are avaible at http://projects.irq6.net/
+
 
 LICENSE
-=======
-    This software is licensed under the GPL v2.  See COPYING for full text of license.
+-------
+
+This software is licensed under the GPL v2.  See COPYING for full text of license.
